@@ -14,3 +14,24 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
+    Route::get('news/create', 'Admin\NewsController@add');
+    Route::post('news/create', 'Admin\NewsController@create');
+});
+
+Route::group(['prefix' => 'admin','middleware' => 'auth'], function() {
+    Route::get('profile/edit', 'Admin\ProfileController@edit')->middleware('auth');
+    Route::post('profile/edit', 'Admin\ProfileController@update')->middleware('auth');
+});
+
+
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
+     Route::get('profile/create', 'Admin\ProfileController@add');
+     Route::post('Profile/create', 'Admin\ProfileController@create');
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
